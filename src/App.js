@@ -3,14 +3,12 @@ import React from "react";
 import { VictoryChart, VictoryLine } from "victory";
 import Papa from "papaparse";
 import londonData from "./data/phe_cases_london_boroughs.csv";
-import { groupBy } from "lodash";
 import Line from "./Line";
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      loading: false,
       covidData: []
     };
     this.updateData = this.updateData.bind(this);
@@ -23,7 +21,6 @@ class App extends React.Component {
       download: false,
       skipEmptyLines: true,
       dynamicTyping: true,
-      // Here this is also available. So we can call our custom class method
       complete: this.updateData
     });
   }
@@ -31,24 +28,23 @@ class App extends React.Component {
   updateData(result) {
     const data = result.data;
 
-    this.setState({ loading: false, covidData: data });
+    this.setState({ covidData: data });
   }
 
   render() {
-    const loadingText = this.state.loading
-      ? "loading..."
-      : "London Covid Cases";
+    const updatedData = [];
     for (let obj of this.state.covidData) {
       let temp = obj.area_name;
       const tempCases = this.state.covidData.filter(
         (obj) => obj.area_name === temp
       );
-      console.log(tempCases);
+      updatedData.push(tempCases);
     }
+    console.log(updatedData);
 
     return (
       <div className="App">
-        <h1>{loadingText}</h1>
+        <h1>London Covid Cases</h1>
         <br />
         <VictoryChart>
           <VictoryLine
