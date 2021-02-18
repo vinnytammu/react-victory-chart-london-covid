@@ -1,18 +1,38 @@
 import "./styles.css";
 import React from "react";
-import { csv } from "d3";
 import { VictoryChart, VictoryLine } from "victory";
+import Papa from "papaparse";
+import londonData from "./data/phe_cases_london_boroughs.csv";
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      data: []
+      covidData: []
     };
+    this.updateData = this.updateData.bind(this);
   }
-  componentDidMount() {}
+
+  componentDidMount() {
+    var csvFilePath = londonData;
+    Papa.parse(csvFilePath, {
+      header: true,
+      download: false,
+      skipEmptyLines: true,
+      // Here this is also available. So we can call our custom class method
+      complete: this.updateDatasc
+    });
+  }
+
+  updateData(result) {
+    const data = result.data;
+    // Here this is available and we can call this.setState (since it's binded in the constructor)
+    this.setState({ covidData: data }); // or shorter ES syntax: this.setState({ data });
+    //console.log(this.state.covidData);
+  }
 
   render() {
+    console.log(this.state.covidData.length);
     return (
       <div className="App">
         <h1>London Covid Cases</h1>
