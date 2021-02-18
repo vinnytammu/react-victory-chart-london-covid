@@ -1,5 +1,5 @@
 import React from "react";
-import { VictoryChart, VictoryLine } from "victory";
+import { VictoryLine } from "victory";
 
 function Line(props) {
   return (

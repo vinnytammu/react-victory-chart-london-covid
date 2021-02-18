@@ -3,7 +3,7 @@ import React from "react";
 import { VictoryChart, VictoryLine } from "victory";
 import Papa from "papaparse";
 import londonData from "./data/phe_cases_london_boroughs.csv";
-import Line from "./Line";
+//import Line from "./Line";
 
 class App extends React.Component {
   constructor() {
@@ -35,13 +35,13 @@ class App extends React.Component {
     const updatedData = [];
     for (let obj of this.state.covidData) {
       let temp = obj.area_name;
-      const tempCases = this.state.covidData.filter(
+      let tempCases = this.state.covidData.filter(
         (obj) => obj.area_name === temp
       );
       updatedData.push(tempCases);
     }
     console.log(updatedData);
-
+    //todo: pass data as props to line component
     return (
       <div className="App">
         <h1>London Covid Cases</h1>
