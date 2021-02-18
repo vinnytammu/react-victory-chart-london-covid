@@ -3,6 +3,8 @@ import React from "react";
 import { VictoryChart, VictoryLine } from "victory";
 import Papa from "papaparse";
 import londonData from "./data/phe_cases_london_boroughs.csv";
+import { groupBy } from "lodash";
+import Line from "./Line";
 
 class App extends React.Component {
   constructor() {
@@ -20,6 +22,7 @@ class App extends React.Component {
       header: true,
       download: false,
       skipEmptyLines: true,
+      dynamicTyping: true,
       // Here this is also available. So we can call our custom class method
       complete: this.updateData
     });
@@ -27,16 +30,22 @@ class App extends React.Component {
 
   updateData(result) {
     const data = result.data;
-    // Here this is available and we can call this.setState (since it's binded in the constructor)
-    this.setState({ loading: false, covidData: data }); // or shorter ES syntax: this.setState({ data });
-    //console.log(this.state.covidData);
+
+    this.setState({ loading: false, covidData: data });
   }
 
   render() {
     const loadingText = this.state.loading
       ? "loading..."
       : "London Covid Cases";
-    console.log(this.state.covidData);
+    for (let obj of this.state.covidData) {
+      let temp = obj.area_name;
+      const tempCases = this.state.covidData.filter(
+        (obj) => obj.area_name === temp
+      );
+      console.log(tempCases);
+    }
+
     return (
       <div className="App">
         <h1>{loadingText}</h1>
@@ -58,12 +67,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-//   useEffect(() => {
-//   fetch("https://data.london.gov.uk/api/table/s8c9t_j4fs2")
-//   .then((response) => response.json())
-//   .then((data) => {
-//     setData(data);
-//     console.log(data);
-//   });
-// }, []);
