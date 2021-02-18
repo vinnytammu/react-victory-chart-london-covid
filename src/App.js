@@ -8,6 +8,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
+      loading: false,
       covidData: []
     };
     this.updateData = this.updateData.bind(this);
@@ -20,22 +21,25 @@ class App extends React.Component {
       download: false,
       skipEmptyLines: true,
       // Here this is also available. So we can call our custom class method
-      complete: this.updateDatasc
+      complete: this.updateData
     });
   }
 
   updateData(result) {
     const data = result.data;
     // Here this is available and we can call this.setState (since it's binded in the constructor)
-    this.setState({ covidData: data }); // or shorter ES syntax: this.setState({ data });
+    this.setState({ loading: false, covidData: data }); // or shorter ES syntax: this.setState({ data });
     //console.log(this.state.covidData);
   }
 
   render() {
-    console.log(this.state.covidData.length);
+    const loadingText = this.state.loading
+      ? "loading..."
+      : "London Covid Cases";
+    console.log(this.state.covidData);
     return (
       <div className="App">
-        <h1>London Covid Cases</h1>
+        <h1>{loadingText}</h1>
         <br />
         <VictoryChart>
           <VictoryLine
