@@ -57,9 +57,6 @@ class App extends React.Component {
         <h1>London Covid Cases</h1>
         <VictoryChart>
           <VictoryAxis tickValues={dateTicks} />
-          {updatedData.map((dataArray) => (
-            <VictoryLine />
-          ))}
         </VictoryChart>
       </div>
     );
