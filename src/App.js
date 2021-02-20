@@ -36,18 +36,33 @@ class App extends React.Component {
   }
 
   render() {
+    const tempCovData = this.state.covidData;
     const updatedData = [];
     const tempDate = [];
-    for (let obj of this.state.covidData) {
+    const tempAreaCode = [];
+    console.log(tempCovData);
+    for (let obj of tempCovData) {
       let temp = obj.area_name;
-      let tempCases = this.state.covidData.filter(
-        (obj) => obj.area_name === temp
-      );
+      let tempCases = tempCovData.filter((obj) => obj.area_name === temp);
       updatedData.push(tempCases);
     }
     console.log(updatedData);
 
-    for (let objDate of this.state.covidData) {
+    for (let obj of tempCovData) {
+      tempAreaCode.push(obj.area_code);
+    }
+    const areaCode = tempAreaCode.filter(this.isUniqueDate);
+    console.log(areaCode);
+
+    let cleanData = updatedData.filter(function (obj) {
+      if (areaCode.includes(obj[0].area_code)) {
+        areaCode.pop(obj[0].area_code);
+        return obj;
+      }
+    });
+    console.log(cleanData);
+
+    for (let objDate of tempCovData) {
       tempDate.push(objDate.date);
     }
     const dateTicks = tempDate.filter(this.isUniqueDate);
