@@ -1,7 +1,7 @@
 import React from "react";
 import { VictoryLine } from "victory";
 
-function Line(props) {
+function Line() {
   return (
     <VictoryLine
       data={[

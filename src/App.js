@@ -1,9 +1,9 @@
 import "./styles.css";
 import React from "react";
-import { VictoryChart, VictoryLine } from "victory";
+import { VictoryChart, VictoryLine, VictoryLabel, VictoryAxis } from "victory";
 import Papa from "papaparse";
 import londonData from "./data/phe_cases_london_boroughs.csv";
-//import Line from "./Line";
+import Line from "./Line";
 
 class App extends React.Component {
   constructor() {
@@ -12,6 +12,7 @@ class App extends React.Component {
       covidData: []
     };
     this.updateData = this.updateData.bind(this);
+    this.isUniqueDate = this.isUniqueDate.bind(this);
   }
 
   componentDidMount() {
@@ -27,12 +28,16 @@ class App extends React.Component {
 
   updateData(result) {
     const data = result.data;
-
     this.setState({ covidData: data });
+  }
+
+  isUniqueDate(value, index, selfArr) {
+    return selfArr.indexOf(value) === index;
   }
 
   render() {
     const updatedData = [];
+    const tempDate = [];
     for (let obj of this.state.covidData) {
       let temp = obj.area_name;
       let tempCases = this.state.covidData.filter(
@@ -41,21 +46,20 @@ class App extends React.Component {
       updatedData.push(tempCases);
     }
     console.log(updatedData);
-    //todo: pass data as props to line component
+
+    for (let objDate of this.state.covidData) {
+      tempDate.push(objDate.date);
+    }
+    const dateTicks = tempDate.filter(this.isUniqueDate);
+
     return (
       <div className="App">
         <h1>London Covid Cases</h1>
-        <br />
         <VictoryChart>
-          <VictoryLine
-            data={[
-              { x: 1, y: 2 },
-              { x: 2, y: 3 },
-              { x: 3, y: 5 },
-              { x: 4, y: 4 },
-              { x: 5, y: 6 }
-            ]}
-          />
+          <VictoryAxis tickValues={dateTicks} />
+          {updatedData.map((dataArray) => (
+            <VictoryLine />
+          ))}
         </VictoryChart>
       </div>
     );
@@ -63,3 +67,6 @@ class App extends React.Component {
 }
 
 export default App;
+
+//finding unique values: https://tinyurl.com/au9937u6
+//forum about Victory Lables: https://tinyurl.com/2h45clbw
