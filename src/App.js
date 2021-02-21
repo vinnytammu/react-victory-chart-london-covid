@@ -40,8 +40,13 @@ class App extends React.Component {
     const updatedData = [];
     const tempDate = [];
     const tempCases = [];
-    const tempAreaCode = [];
-    console.log(tempCovData);
+    const tempArea = [];
+
+    for (let obj of tempCovData) {
+      tempArea.push(obj.area_name);
+    }
+    const areaName = tempArea.filter(this.isUnique);
+
     for (let obj of tempCovData) {
       let temp = obj.area_name;
       let tempCases = tempCovData.filter((obj) => obj.area_name === temp);
@@ -49,18 +54,7 @@ class App extends React.Component {
     }
     console.log(updatedData);
 
-    for (let obj of tempCovData) {
-      tempAreaCode.push(obj.area_code);
-    }
-    const areaCode = tempAreaCode.filter(this.isUnique);
-    console.log(areaCode);
-
-    let cleanData = updatedData.filter(function (obj) {
-      if (areaCode.includes(obj[0].area_code)) {
-        areaCode.pop(obj[0].area_code);
-        return obj;
-      }
-    });
+    const cleanData = updatedData.slice(0, areaName.length);
     console.log(cleanData);
 
     for (let objDate of tempCovData) {
