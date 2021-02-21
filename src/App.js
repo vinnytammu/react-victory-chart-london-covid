@@ -12,7 +12,7 @@ class App extends React.Component {
       covidData: []
     };
     this.updateData = this.updateData.bind(this);
-    this.isUniqueDate = this.isUniqueDate.bind(this);
+    this.isUnique = this.isUnique.bind(this);
   }
 
   componentDidMount() {
@@ -31,7 +31,7 @@ class App extends React.Component {
     this.setState({ covidData: data });
   }
 
-  isUniqueDate(value, index, selfArr) {
+  isUnique(value, index, selfArr) {
     return selfArr.indexOf(value) === index;
   }
 
@@ -39,6 +39,7 @@ class App extends React.Component {
     const tempCovData = this.state.covidData;
     const updatedData = [];
     const tempDate = [];
+    const tempCases = [];
     const tempAreaCode = [];
     console.log(tempCovData);
     for (let obj of tempCovData) {
@@ -51,7 +52,7 @@ class App extends React.Component {
     for (let obj of tempCovData) {
       tempAreaCode.push(obj.area_code);
     }
-    const areaCode = tempAreaCode.filter(this.isUniqueDate);
+    const areaCode = tempAreaCode.filter(this.isUnique);
     console.log(areaCode);
 
     let cleanData = updatedData.filter(function (obj) {
@@ -65,13 +66,20 @@ class App extends React.Component {
     for (let objDate of tempCovData) {
       tempDate.push(objDate.date);
     }
-    const dateTicks = tempDate.filter(this.isUniqueDate);
+    const dateTicks = tempDate.filter(this.isUnique);
+
+    for (let objCases of tempCovData) {
+      tempCases.push(objCases.total_cases);
+    }
+    const casesTicks = Math.max(...tempCases);
+    console.log(casesTicks);
 
     return (
       <div className="App">
         <h1>London Covid Cases</h1>
         <VictoryChart>
           <VictoryAxis tickValues={dateTicks} />
+          <VictoryAxis dependentAxis tickValues={casesTicks} />
         </VictoryChart>
       </div>
     );
