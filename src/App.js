@@ -3,9 +3,12 @@ import React from "react";
 import {
   VictoryChart,
   VictoryLine,
+  VictoryGroup,
   VictoryLabel,
+  VictoryScatter,
   createContainer,
-  VictoryAxis
+  VictoryAxis,
+  VictoryTooltip
 } from "victory";
 import Papa from "papaparse";
 import londonData from "./data/phe_cases_london_boroughs.csv";
@@ -81,26 +84,30 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>London Covid Cases</h1>
-        <VictoryChart
-          containerComponent={
-            <VictoryZoomVoronoiContainer
-              labels={(d) => `(x=${d.area_name};y=${d.total_cases})`}
-            />
-          }
-        >
+        <VictoryChart containerComponent={<VictoryZoomVoronoiContainer />}>
           <VictoryAxis tickValues={dateTicks} fixLabelOverlap={true} />
           <VictoryAxis dependentAxis tickValues={casesTicks} />
           {cleanData.map((dataArr, index) => {
             return (
-              <VictoryLine
-                style={{ data: { stroke: randomColor() } }}
-                data={dataArr}
-                key={index}
-                x="date"
-                y="total_cases"
-                labels={(d) => d.label}
-                labelComponent={<VictoryLabel dx={10} dy={15} renderInPortal />}
-              />
+              <VictoryGroup>
+                <VictoryLine
+                  style={{ data: { stroke: randomColor() } }}
+                  data={dataArr}
+                  key={index}
+                  x="date"
+                  y="total_cases"
+                />
+                <VictoryScatter
+                  style={{ data: { fill: randomColor() } }}
+                  size={({ active }) => (active ? 4 : 2)}
+                  data={dataArr}
+                  key={index}
+                  x="date"
+                  y="total_cases"
+                  labels={(datum) => `total cases=${datum.x}`}
+                  labelComponent={<VictoryTooltip style={{ fontSize: 10 }} />}
+                />
+              </VictoryGroup>
             );
           })}
         </VictoryChart>
