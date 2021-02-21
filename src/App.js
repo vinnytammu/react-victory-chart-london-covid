@@ -65,15 +65,15 @@ class App extends React.Component {
     for (let objCases of tempCovData) {
       tempCases.push(objCases.total_cases);
     }
-    const casesTicks = tempCases.filter(this.isUnique);
-    //Math.max(...tempCases);
+
+    const casesTicks = Math.max(...tempCases);
     console.log(casesTicks);
 
     return (
       <div className="App">
         <h1>London Covid Cases</h1>
         <VictoryChart>
-          <VictoryAxis tickValues={dateTicks} />
+          <VictoryAxis tickValues={dateTicks} fixLabelOverlap={true} />
           <VictoryAxis dependentAxis tickValues={casesTicks} />
           {cleanData.map((dataArr, index) => {
             return (
