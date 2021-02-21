@@ -65,7 +65,8 @@ class App extends React.Component {
     for (let objCases of tempCovData) {
       tempCases.push(objCases.total_cases);
     }
-    const casesTicks = Math.max(...tempCases);
+    const casesTicks = tempCases.filter(this.isUnique);
+    //Math.max(...tempCases);
     console.log(casesTicks);
 
     return (
@@ -74,6 +75,16 @@ class App extends React.Component {
         <VictoryChart>
           <VictoryAxis tickValues={dateTicks} />
           <VictoryAxis dependentAxis tickValues={casesTicks} />
+          {cleanData.map((dataArr, index) => {
+            return (
+              <VictoryLine
+                data={dataArr}
+                key={index}
+                x="date"
+                y="total_cases"
+              />
+            );
+          })}
         </VictoryChart>
       </div>
     );
