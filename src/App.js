@@ -3,6 +3,7 @@ import React from "react";
 import { VictoryChart, VictoryLine, VictoryLabel, VictoryAxis } from "victory";
 import Papa from "papaparse";
 import londonData from "./data/phe_cases_london_boroughs.csv";
+import randomColor from "randomcolor";
 import Line from "./Line";
 
 class App extends React.Component {
@@ -78,6 +79,7 @@ class App extends React.Component {
           {cleanData.map((dataArr, index) => {
             return (
               <VictoryLine
+                style={{ data: { stroke: randomColor() } }}
                 data={dataArr}
                 key={index}
                 x="date"
