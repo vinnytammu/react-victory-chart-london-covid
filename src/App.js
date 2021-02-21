@@ -1,10 +1,18 @@
 import "./styles.css";
 import React from "react";
-import { VictoryChart, VictoryLine, VictoryLabel, VictoryAxis } from "victory";
+import {
+  VictoryChart,
+  VictoryLine,
+  VictoryLabel,
+  createContainer,
+  VictoryAxis
+} from "victory";
 import Papa from "papaparse";
 import londonData from "./data/phe_cases_london_boroughs.csv";
 import randomColor from "randomcolor";
 import Line from "./Line";
+
+const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
 class App extends React.Component {
   constructor() {
@@ -73,7 +81,13 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>London Covid Cases</h1>
-        <VictoryChart>
+        <VictoryChart
+          containerComponent={
+            <VictoryZoomVoronoiContainer
+              labels={(d) => `(x=${d.area_name};y=${d.total_cases})`}
+            />
+          }
+        >
           <VictoryAxis tickValues={dateTicks} fixLabelOverlap={true} />
           <VictoryAxis dependentAxis tickValues={casesTicks} />
           {cleanData.map((dataArr, index) => {
@@ -84,6 +98,8 @@ class App extends React.Component {
                 key={index}
                 x="date"
                 y="total_cases"
+                labels={(d) => d.label}
+                labelComponent={<VictoryLabel dx={10} dy={15} renderInPortal />}
               />
             );
           })}
@@ -97,3 +113,4 @@ export default App;
 
 //finding unique values: https://tinyurl.com/au9937u6
 //forum about Victory Lables: https://tinyurl.com/2h45clbw
+//zoom and scrub example: https://codesandbox.io/s/line-end-labels-7zxju?from-embed=&file=/src/index.js
