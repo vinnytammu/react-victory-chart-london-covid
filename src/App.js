@@ -79,7 +79,7 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <h1>London Covid-19 Cases</h1>
+        <h1>London Covid-19 Cases </h1>
         <VictoryChart containerComponent={<VictoryZoomVoronoiContainer />}>
           <VictoryAxis tickValues={dateTicks} fixLabelOverlap={true} />
           <VictoryAxis dependentAxis tickValues={casesTicks} />
@@ -99,6 +99,7 @@ class App extends React.Component {
             );
           })}
         </VictoryChart>
+        <p>Brush and Zoom Capable. Try panning and zooming</p>
       </div>
     );
   }
@@ -109,3 +110,4 @@ export default App;
 //finding unique values: https://tinyurl.com/au9937u6
 //forum about Victory Lables: https://tinyurl.com/2h45clbw
 //zoom and scrub example: https://codesandbox.io/s/line-end-labels-7zxju?from-embed=&file=/src/index.js
+//todo: https://formidable.com/open-source/victory/guides/zoom-on-large-datasets
