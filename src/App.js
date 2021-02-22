@@ -84,30 +84,28 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>London Covid Cases</h1>
-        <VictoryChart containerComponent={<VictoryZoomVoronoiContainer />}>
+        <VictoryChart
+          containerComponent={
+            <VictoryZoomVoronoiContainer
+            //labels={(d) => `(x=${d.date};y=${d.total_cases})`}
+            />
+          }
+        >
           <VictoryAxis tickValues={dateTicks} fixLabelOverlap={true} />
           <VictoryAxis dependentAxis tickValues={casesTicks} />
           {cleanData.map((dataArr, index) => {
             return (
-              <VictoryGroup>
-                <VictoryLine
-                  style={{ data: { stroke: randomColor() } }}
-                  data={dataArr}
-                  key={index}
-                  x="date"
-                  y="total_cases"
-                />
-                <VictoryScatter
-                  style={{ data: { fill: randomColor() } }}
-                  size={({ active }) => (active ? 4 : 2)}
-                  data={dataArr}
-                  key={index}
-                  x="date"
-                  y="total_cases"
-                  labels={(datum) => `total cases=${datum.x}`}
-                  labelComponent={<VictoryTooltip style={{ fontSize: 10 }} />}
-                />
-              </VictoryGroup>
+              <VictoryLine
+                style={{ data: { stroke: randomColor() } }}
+                key={index}
+                data={dataArr}
+                x="date"
+                y="total_cases"
+                labels={({ datum }) =>
+                  `Area: ${datum.area_name}, date: ${datum.date}, cases: ${datum.total_cases}`
+                }
+                labelComponent={<VictoryTooltip style={{ fontSize: 10 }} />}
+              />
             );
           })}
         </VictoryChart>
