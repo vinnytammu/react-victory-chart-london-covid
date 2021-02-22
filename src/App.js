@@ -3,9 +3,6 @@ import React from "react";
 import {
   VictoryChart,
   VictoryLine,
-  VictoryGroup,
-  VictoryLabel,
-  VictoryScatter,
   createContainer,
   VictoryAxis,
   VictoryTooltip
@@ -13,7 +10,6 @@ import {
 import Papa from "papaparse";
 import londonData from "./data/phe_cases_london_boroughs.csv";
 import randomColor from "randomcolor";
-import Line from "./Line";
 
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
@@ -61,8 +57,8 @@ class App extends React.Component {
 
     for (let obj of tempCovData) {
       let temp = obj.area_name;
-      let tempCases = tempCovData.filter((obj) => obj.area_name === temp);
-      updatedData.push(tempCases);
+      let cases = tempCovData.filter((obj) => obj.area_name === temp);
+      updatedData.push(cases);
     }
     console.log(updatedData);
 
@@ -83,7 +79,7 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <h1>London Covid Cases</h1>
+        <h1>London Covid-19 Cases</h1>
         <VictoryChart containerComponent={<VictoryZoomVoronoiContainer />}>
           <VictoryAxis tickValues={dateTicks} fixLabelOverlap={true} />
           <VictoryAxis dependentAxis tickValues={casesTicks} />
@@ -96,7 +92,7 @@ class App extends React.Component {
                 x="date"
                 y="total_cases"
                 labels={({ datum }) =>
-                  `${datum.area_name} Date: ${datum.date}, Total Cases: ${datum.total_cases}, New Cases: ${datum.new_cases}`
+                  `${datum.area_name}: (date: ${datum.date}, total cases: ${datum.total_cases}, new cases: ${datum.new_cases})`
                 }
                 labelComponent={<VictoryTooltip style={{ fontSize: 10 }} />}
               />
