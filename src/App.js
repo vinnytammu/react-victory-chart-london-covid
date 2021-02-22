@@ -84,13 +84,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>London Covid Cases</h1>
-        <VictoryChart
-          containerComponent={
-            <VictoryZoomVoronoiContainer
-            //labels={(d) => `(x=${d.date};y=${d.total_cases})`}
-            />
-          }
-        >
+        <VictoryChart containerComponent={<VictoryZoomVoronoiContainer />}>
           <VictoryAxis tickValues={dateTicks} fixLabelOverlap={true} />
           <VictoryAxis dependentAxis tickValues={casesTicks} />
           {cleanData.map((dataArr, index) => {
@@ -102,7 +96,7 @@ class App extends React.Component {
                 x="date"
                 y="total_cases"
                 labels={({ datum }) =>
-                  `Area: ${datum.area_name}, date: ${datum.date}, cases: ${datum.total_cases}`
+                  `${datum.area_name} Date: ${datum.date}, Total Cases: ${datum.total_cases}, New Cases: ${datum.new_cases}`
                 }
                 labelComponent={<VictoryTooltip style={{ fontSize: 10 }} />}
               />
