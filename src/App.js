@@ -60,10 +60,8 @@ class App extends React.Component {
       let cases = tempCovData.filter((obj) => obj.area_name === temp);
       updatedData.push(cases);
     }
-    console.log(updatedData);
 
     const cleanData = updatedData.slice(0, areaName.length);
-    console.log(cleanData);
 
     for (let objDate of tempCovData) {
       tempDate.push(objDate.date);
@@ -75,7 +73,6 @@ class App extends React.Component {
     }
 
     const casesTicks = Math.max(...tempCases);
-    console.log(casesTicks);
 
     return (
       <div className="App">
@@ -110,4 +107,4 @@ export default App;
 //finding unique values: https://tinyurl.com/au9937u6
 //forum about Victory Lables: https://tinyurl.com/2h45clbw
 //zoom and scrub example: https://codesandbox.io/s/line-end-labels-7zxju?from-embed=&file=/src/index.js
-//todo: https://formidable.com/open-source/victory/guides/zoom-on-large-datasets
+//todo: optimize zoom on large datasets https://formidable.com/open-source/victory/guides/zoom-on-large-datasets
