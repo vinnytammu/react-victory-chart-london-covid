@@ -76,7 +76,7 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <h1>London Covid-19 Cases (2020)</h1>
+        <h1>London Covid-19 Cases (2020 Not updated yet)</h1>
         <VictoryChart containerComponent={<VictoryZoomVoronoiContainer />}>
           <VictoryAxis tickValues={dateTicks} fixLabelOverlap={true} />
           <VictoryAxis dependentAxis tickValues={casesTicks} />
